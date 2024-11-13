@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "node": "^23.2.0",
+    "nodemon": "^3.1.7"
+  },
+  "name": "microservice-a",
+  "version": "1.0.0",
+  "main": "microserviceA.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodemon mictoserviceA.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "microservice-A"
+  },
+  "author": "Aidan Daly",
+  "license": "ISC",
+  "description": ""
+}
