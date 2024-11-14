@@ -1,11 +1,6 @@
 //require filesystem 
 const fs = require('fs')
 
-//receive path 
-const sendPath = 'receive.txt';
-
-//return path
-const receivePath = 'return.txt';
 
 //Start the commandString
 let commandString = "run\n"
@@ -48,17 +43,12 @@ commandString+=balance4
 
 
  //Write the command to the file
- fs.writeFile(sendPath, commandString, function(err){
+ fs.writeFile("microserviceA.txt", commandString, function(err){
     if(err){
         console.error("error clearing file")
     }
 
-    //Request the service to return the data to teh file
-    fs.writeFile(receivePath, "return", function(err){
-        if(err){
-            console.error("Could not process recieve command");
-        }
-    })
+    
     
     
 })
@@ -66,18 +56,27 @@ commandString+=balance4
 
 
 //Watch for changes in the receive file
-let watcher = fs.watchFile(receivePath, (curr, prev)=>{
+ fs.watchFile("microserviceA.txt", (curr, prev)=>{
     
     //Read the file
-    fs.readFile(receivePath, 'utf-8', function(err,data){
+    fs.readFile("microserviceA.txt", 'utf-8', function(err,data){
         //Check for error
         if(err){
-            console.error("Could not open file: %s ", receivePath)
+            console.error("Could not open file: %s ", "microserviceA.txt")
             return;
         }
 
+        if(data.trim()=== commandString){
+            //Request the service to return the data to teh file
+            fs.writeFile("microserviceA.txt", "return", function(err){
+                if(err){
+                    console.error("Could not process recieve command");
+                }
+            })
+        }
+
         //only proceed if the data is non empty or doesnt contain return
-        if(data.trim() !== "" && data.trim() !== "return"){
+        if(data.trim() !== "" && data.trim() !== "return" && data.trim()!==commandString){
             //Parse the data lines from the file
             const lines = data.split('\n').map(line=>line.trim())
 
@@ -87,8 +86,8 @@ let watcher = fs.watchFile(receivePath, (curr, prev)=>{
             console.log("Account 3 balance: "+lines[2])
             console.log("Account 4 balance: "+lines[3])
 
-            //Stop watching after the data is processed
-            fs.unwatchFile(receivePath)
+            // //Stop watching after the data is processed
+            // fs.unwatreceivePathchFile()
 
         }
 
