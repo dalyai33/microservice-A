@@ -52,6 +52,13 @@ commandString+=balance4
     if(err){
         console.error("error clearing file")
     }
+
+    //Request the service to return the data to teh file
+    fs.writeFile(receivePath, "return", function(err){
+        if(err){
+            console.error("Could not process recieve command");
+        }
+    })
     
     
 })
@@ -69,7 +76,8 @@ let watcher = fs.watchFile(receivePath, (curr, prev)=>{
             return;
         }
 
-        if(data !== ""){
+        //only proceed if the data is non empty or doesnt contain return
+        if(data.trim() !== "" && data.trim() !== "return"){
             //Parse the data lines from the file
             const lines = data.split('\n').map(line=>line.trim())
 
@@ -79,8 +87,14 @@ let watcher = fs.watchFile(receivePath, (curr, prev)=>{
             console.log("Account 3 balance: "+lines[2])
             console.log("Account 4 balance: "+lines[3])
 
+            //Stop watching after the data is processed
+            fs.unwatchFile(receivePath)
+
         }
 
+        
+
+       
        
     })
 })
