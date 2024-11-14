@@ -25,4 +25,5 @@ then the microservice will replace that with the output(using the same example r
 5
 
 
-3) UML sequence diagram showing how requesting and receiving data works. Make it detailed enough that your teammate (and your grader) will understand.
+3) UML sequence diagram: ![image](https://github.com/user-attachments/assets/b8f19356-9cb7-4070-a1ca-85f311fe4910)
+
